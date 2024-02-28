@@ -17,6 +17,8 @@ jobs:
     steps:
       - name: 👥 Clone kbupdate repo
         working-directory: C:\
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: |
           gh repo clone potatoqualitee/kbupdate
 
