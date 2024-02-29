@@ -114,7 +114,21 @@ jobs:
         with:
           name: kbupdate-library
           path: "C:\\kbupdate-library"
+      - name: calc hashes
+        run: |
+          $tempPath = Get-PSFPath -Name Temp
 
+          # Construct the path to the WSUS directory
+          $wsusPath = Join-Path -Path $tempPath -ChildPath "WSUS"
+          
+          # Get all files in the WSUS directory
+          $wsusFiles = Get-ChildItem -Path $wsusPath -File
+          
+          # Iterate through each file and calculate its hash
+          foreach ($file in $wsusFiles) {
+              $hash = Get-FileHash -Path $file.FullName -Algorithm SHA256
+              Write-Host "$($file.FullName): $($hash.Hash)"
+          }
 
       # - name: 📝 Prep, sign and publish kbupdate
       #   env:
